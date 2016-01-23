@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
@@ -9,20 +10,32 @@
         android:id="@+id/txtStep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/steps" />
+        android:text="@string/steps"
+        android:layout_weight="0.18"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/txtStep"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnConsent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/consent"
-        android:onClick="setConsentPermission"/>
+        android:onClick="setConsentPermission"
+        android:layout_marginLeft="0dp"
+        android:layout_below="@+id/btnStart"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/txtStatus"
@@ -30,7 +43,11 @@
         android:layout_height="wrap_content"
         android:text=""
         android:fontFamily="calibri"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="535dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -40,7 +57,20 @@
         android:textAlignment="textStart"
         android:fontFamily="calibri"
         android:textColor="@android:color/black"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="568dp" />
 
-</LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="623dp"></TableLayout>
+
+</RelativeLayout>
 
