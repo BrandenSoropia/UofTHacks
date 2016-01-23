@@ -8,9 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.os.*;
+import android.widget.Toast;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Handler mHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                doStuff();
+            }
+        }, 5000);
+        Intent intent = new Intent(this, CheckConsciousness.class);
+        startActivity(intent);
+    }
+
+    private void doStuff() {
+        Toast.makeText(this, "Delayed Toast!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
