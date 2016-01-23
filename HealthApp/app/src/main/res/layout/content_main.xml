@@ -12,10 +12,9 @@
         android:layout_height="wrap_content"
         android:text="@string/steps"
         android:layout_weight="0.18"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnStart"
@@ -23,7 +22,6 @@
         android:layout_height="wrap_content"
         android:text="@string/start"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="60dp"
         android:layout_below="@+id/txtStep"
         android:layout_alignParentStart="true" />
 
@@ -44,10 +42,9 @@
         android:text=""
         android:fontFamily="calibri"
         android:textColor="@android:color/black"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="400dp" />
+        android:layout_alignTop="@+id/textView3"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -58,10 +55,9 @@
         android:fontFamily="calibri"
         android:textColor="@android:color/black"
         android:textSize="14dp"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="350dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <TableLayout
         android:layout_width="match_parent"
