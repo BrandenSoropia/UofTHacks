@@ -3,13 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
         android:paddingTop="100sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/check_consciousness"
+        android:text="@string/consent_inquiry"
         android:textSize="50sp"
         android:textColor="#000000"
         android:textAlignment="center"
@@ -30,7 +29,6 @@
             android:text="@string/no"
             android:textSize="30sp"
             android:id="@+id/button2"
-            android:onClick="sendToNextStep"
             android:layout_gravity="right" />
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -42,6 +40,5 @@
             android:id="@+id/button" />
 
     </LinearLayout>
-
 
 </LinearLayout>

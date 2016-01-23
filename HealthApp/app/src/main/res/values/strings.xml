@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">HealthApp</string>
     <string name="action_settings">Settings</string>
-    <string name="check_consciousness">Check Consciousness</string>
+    <string name="check_consciousness">Is the victim unconscious?</string>
+    <string name="consent_inquiry">Consent received from victim?</string>
+    <string name="emergency_contact">Call 911!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 </resources>
