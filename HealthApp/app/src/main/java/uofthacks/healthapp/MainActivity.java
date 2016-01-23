@@ -21,6 +21,8 @@ import com.microsoft.band.ConnectionState;
 import com.microsoft.band.UserConsent;
 import com.microsoft.band.sensors.BandHeartRateEvent;
 import com.microsoft.band.sensors.BandHeartRateEventListener;
+import com.microsoft.band.sensors.BandSkinTemperatureEvent;
+import com.microsoft.band.sensors.BandSkinTemperatureEventListener;
 import com.microsoft.band.sensors.HeartRateConsentListener;
 
 import android.os.Bundle;
@@ -36,13 +38,38 @@ public class MainActivity extends Activity {
     private BandClient client = null;
     private Button btnStart, btnConsent;
     private TextView txtStatus;
+    private TextView bodyTemperature;
+
+    enum Measurement_Type{BODY_TEMPERATURE,HEART_RATE};
 
     private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
-                appendToUI(String.format("Heart Rate = %d beats per minute\n"
-                        + "Quality = %s\n", event.getHeartRate(), event.getQuality()));
+                if (event.getQuality().toString().equals("LOCKED"))
+                {
+                    appendToUI(String.format("Heart Rate = %d beats per minute\n"
+                            + "Quality = %s\n", event.getHeartRate(), event.getQuality()),0);
+                }
+                else
+                {
+                    appendToUI(String.format("Quality = %s\n", event.getQuality()),0);
+                }
+
+            }
+        }
+    };
+
+
+    private BandSkinTemperatureEventListener temperatureListener = new BandSkinTemperatureEventListener() {
+
+        @Override
+        public void onBandSkinTemperatureChanged(BandSkinTemperatureEvent event) {
+            // TODO Auto-generated method stub
+            // Do something
+            if (event != null) {
+                appendToUI(String.format("Body Temperature = %d °C\n"
+                        + "Time = %s\n", event.getTemperature(), event.getTimestamp()),1);
             }
         }
     };
@@ -53,6 +80,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         txtStatus = (TextView) findViewById(R.id.txtStatus);
+        bodyTemperature = (TextView) findViewById(R.id.bodyTemperatureTextView);
         btnStart = (Button) findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new OnClickListener() {
             @Override
@@ -87,7 +115,7 @@ public class MainActivity extends Activity {
             try {
                 client.getSensorManager().unregisterHeartRateEventListener(mHeartRateEventListener);
             } catch (BandIOException e) {
-                appendToUI(e.getMessage());
+                appendToUI(e.getMessage(), 0);
             }
         }
     }
@@ -115,10 +143,10 @@ public class MainActivity extends Activity {
                         client.getSensorManager().registerHeartRateEventListener(mHeartRateEventListener);
                     } else {
                         appendToUI("You have not given this application consent to access heart rate data yet."
-                                + " Please press the Heart Rate Consent button.\n");
+                                + " Please press the Heart Rate Consent button.\n", 0);
                     }
                 } else {
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
+                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n", 0);
                 }
             } catch (BandException e) {
                 String exceptionMessage = "";
@@ -133,10 +161,10 @@ public class MainActivity extends Activity {
                         exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
                         break;
                 }
-                appendToUI(exceptionMessage);
+                appendToUI(exceptionMessage, 0);
 
             } catch (Exception e) {
-                appendToUI(e.getMessage());
+                appendToUI(e.getMessage(),0);
             }
             return null;
         }
@@ -155,8 +183,9 @@ public class MainActivity extends Activity {
                             }
                         });
                     }
+                    client.getSensorManager().registerSkinTemperatureEventListener(temperatureListener);
                 } else {
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
+                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n",0);
                 }
             } catch (BandException e) {
                 String exceptionMessage = "";
@@ -171,20 +200,29 @@ public class MainActivity extends Activity {
                         exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
                         break;
                 }
-                appendToUI(exceptionMessage);
+                appendToUI(exceptionMessage, 0);
 
             } catch (Exception e) {
-                appendToUI(e.getMessage());
+                appendToUI(e.getMessage(), 0);
             }
             return null;
         }
     }
 
-    private void appendToUI(final String string) {
+    private void appendToUI(final String string, final int type) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                txtStatus.setText(string);
+                if (type == 1)
+                {
+                    bodyTemperature.setText(string);
+
+                }
+                else
+                {
+                    txtStatus.setText(string);
+                }
+
             }
         });
     }
@@ -193,7 +231,7 @@ public class MainActivity extends Activity {
         if (client == null) {
             BandInfo[] devices = BandClientManager.getInstance().getPairedBands();
             if (devices.length == 0) {
-                appendToUI("Band isn't paired with your phone.\n");
+                appendToUI("Band isn't paired with your phone.\n",0);
                 return false;
             }
             client = BandClientManager.getInstance().create(getBaseContext(), devices[0]);
@@ -201,7 +239,7 @@ public class MainActivity extends Activity {
             return true;
         }
 
-        appendToUI("Band is connecting...\n");
+        appendToUI("Band is connecting...\n",0);
         return ConnectionState.CONNECTED == client.connect().await();
     }
 }
