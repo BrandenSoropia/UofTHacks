@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/txtStep"
@@ -20,19 +21,26 @@
         android:id="@+id/btnConsent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/consent" />
+        android:text="@string/consent"
+        android:onClick="setConsentPermission"/>
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/bodyTemperatureTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:id="@+id/textView3"
+        android:layout_weight="0.05"
+        android:textAlignment="textStart"
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black"
+        android:textSize="14dp" />
 
 </LinearLayout>
 
