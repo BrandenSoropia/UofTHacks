@@ -47,7 +47,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="535dp" />
+        android:layout_marginTop="400dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="568dp" />
+        android:layout_marginTop="350dp" />
 
     <TableLayout
         android:layout_width="match_parent"
