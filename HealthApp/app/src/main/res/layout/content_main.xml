@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:text="@string/steps"
         android:layout_weight="0.18"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="50sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="0dp" />
 
     <Button
         android:id="@+id/btnStart"
@@ -34,7 +34,7 @@
         android:onClick="setConsentPermission"
         android:layout_marginLeft="0dp"
         android:layout_below="@+id/btnStart"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/txtStatus"
@@ -43,9 +43,10 @@
         android:text=""
         android:fontFamily="calibri"
         android:textColor="@android:color/black"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100sp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -56,19 +57,21 @@
         android:fontFamily="calibri"
         android:textColor="@android:color/black"
         android:textSize="14dp"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="200sp"
-        android:layout_below="@+id/btnConsent"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="568dp" />
 
     <TableLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="false"
-        android:layout_marginTop="623dp"></TableLayout>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="623dp">
+        android:layout_weight=".50"
+    </TableLayout>
 
 </RelativeLayout>
 
