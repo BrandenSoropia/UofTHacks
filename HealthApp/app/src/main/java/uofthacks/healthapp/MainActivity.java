@@ -1,5 +1,13 @@
 package uofthacks.healthapp;
 
+import com.microsoft.band.BandClient;
+import com.microsoft.band.BandClientManager;
+import com.microsoft.band.BandException;
+import com.microsoft.band.BandInfo;
+import com.microsoft.band.BandIOException;
+import com.microsoft.band.BandPendingResult;
+import com.microsoft.band.ConnectionState;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,6 +34,30 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        BandInfo[] pairedBands =
+                BandClientManager.getInstance().getPairedBands();
+
+        BandClient bandClient =
+                BandClientManager.getInstance().create(this, pairedBands[0]);
+
+        // Note: The BandPendingResult.await() method must be called from a
+        // background thread. An exception will be thrown if called from the UI
+        //thread.
+                BandPendingResult<ConnectionState> pendingResult =
+                bandClient.connect();
+        try {
+            ConnectionState state = pendingResult.await();
+            if(state == ConnectionState.CONNECTED) {
+            // do work on success
+            } else {
+            // do work on failure
+            }
+        } catch(InterruptedException ex) {
+            // handle InterruptedException
+            } catch(BandException ex) {
+            // handle BandException
+        }
+
     }
 
     @Override
