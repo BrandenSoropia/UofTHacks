@@ -36,6 +36,8 @@
         android:layout_below="@+id/btnStart"
         android:layout_alignParentStart="true" />
 
+
+
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="match_parent"
@@ -45,19 +47,7 @@
         android:textColor="@android:color/black"
         android:layout_marginLeft="0dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_weight="0.05"
-        android:textAlignment="textStart"
-        android:fontFamily="calibri"
-        android:textColor="@android:color/black"
-        android:textSize="14dp"
-        android:layout_marginLeft="0dp"
-        android:layout_below="@+id/txtStatus"
+        android:layout_below="@+id/btnConsent"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -69,7 +59,7 @@
         android:textColor="@android:color/black"
         android:layout_marginLeft="0dp"
         android:layout_centerVertical="true"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/txtStatus"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -83,6 +73,19 @@
         android:layout_centerVertical="true"
         android:layout_below="@+id/heartStatus"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="0dp"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/bandStatus"
+        android:layout_alignParentStart="true" />
+
 
 
     <TableLayout
