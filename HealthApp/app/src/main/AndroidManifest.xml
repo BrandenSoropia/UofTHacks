@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CheckConsciousness" />
-        <activity android:name=".EmergencyContact"></activity>
+        <activity android:name=".EmergencyContact" />
+        <activity android:name=".ApplyBand"></activity>
     </application>
 
 </manifest>
