@@ -13,6 +13,7 @@
         android:text="@string/steps"
         android:layout_weight="0.18"
         android:layout_marginLeft="0dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -66,7 +67,7 @@
         android:layout_gravity="right"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_marginTop="623dp"></TableLayout>
 
 </RelativeLayout>
