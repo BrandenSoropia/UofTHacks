@@ -5,6 +5,15 @@
     <string name="consent_inquiry">Consent received from victim?</string>
     <string name="emergency_contact">Call 911!</string>
     <string name="apply_band">Please put band on victim</string>
+    <string name="secondary_assessment">Please conduct secondary assessment</string>
+    <string name="recovery_position">Please place victim in recovery position</string>
+
+    <!-- temp strings-->
+    <string name="move_to_CPR">CPR</string>
+    <string name="move_to_recovery_position">Recovery Position</string>
+    <string name="move_to_secondary_assessment">Secondary Assessment</string>
+    <string name="revived">REVIVED! :D</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="begin">Begin</string>

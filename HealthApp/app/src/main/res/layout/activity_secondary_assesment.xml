@@ -7,25 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="uofthacks.healthapp.PerformCPR">
+    tools:context="uofthacks.healthapp.SecondaryAssesment">
 
-    <!-- Put CPR instructions here -->
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:id="@+id/CPR_Instructions"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/revived"
-        android:id="@+id/button4"
-        android:onClick="sendToRecoveryPosition"
-        android:layout_alignParentBottom="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/secondary_assessment"
+        android:textSize="50sp"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

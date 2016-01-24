@@ -25,7 +25,10 @@
         <activity android:name=".CheckConsciousness" />
         <activity android:name=".EmergencyContact" />
         <activity android:name=".ApplyBand" />
-        <activity android:name=".PerformCPR"></activity>
+        <activity android:name=".PerformCPR" />
+        <activity android:name=".ReceivedConsent" />
+        <activity android:name=".SecondaryAssesment" />
+        <activity android:name=".RecoveryPosition"></activity>
     </application>
 
 </manifest>

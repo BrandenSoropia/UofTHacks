@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 doStuff();
             }
-        }, 5000);
+        }, 50000);
         Intent intent = new Intent(this, CheckConsciousness.class);
         startActivity(intent);
     }

@@ -29,6 +29,7 @@
             android:text="@string/no"
             android:textSize="30sp"
             android:id="@+id/button2"
+            android:onClick="sendToSecondCheck"
             android:layout_gravity="right" />
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/yes"
             android:textSize="30sp"
+            android:onClick="sendToApplyBand"
             android:id="@+id/button" />
 
     </LinearLayout>
