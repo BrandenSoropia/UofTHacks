@@ -3,4 +3,25 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/apply_band"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_margin="50dp"
+        android:text="@string/begin"
+        android:textSize="50sp"
+        android:onClick=""
+        android:background="@drawable/rounded_button"/>
 </LinearLayout>

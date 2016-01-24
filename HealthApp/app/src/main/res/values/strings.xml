@@ -4,6 +4,8 @@
     <string name="check_consciousness">Is the victim unconscious?</string>
     <string name="consent_inquiry">Consent received from victim?</string>
     <string name="emergency_contact">Call 911!</string>
+    <string name="apply_band">Please put band on victim</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="begin">Begin</string>
 </resources>
