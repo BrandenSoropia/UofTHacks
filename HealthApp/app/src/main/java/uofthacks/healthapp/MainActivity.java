@@ -1,6 +1,21 @@
 package uofthacks.healthapp;
 
 
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.os.*;
+import android.widget.Toast;
+import android.content.Intent;
+
+import java.lang.ref.WeakReference;
+
+
 //MIT License:
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -16,6 +31,7 @@ package uofthacks.healthapp;
 //THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 //CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //IN THE SOFTWARE.
+
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
 import com.microsoft.band.BandException;
@@ -57,8 +73,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtStatus = (TextView) findViewById(R.id.txtStatus);
-        heartRateText = (TextView)findViewById(R.id.txtStatus);
-        temperatureText = (TextView)findViewById(R.id.textView3);
+        heartRateText = (TextView)findViewById(R.id.heartRateTextView);
+        temperatureText = (TextView)findViewById(R.id.temperatureTextView);
         connectButon = (Button)findViewById(R.id.btnStart);
         connectButon.setOnClickListener(new View.OnClickListener() {
 
@@ -72,7 +88,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
     }
 
     // Heart rate consent Listener
@@ -86,7 +101,10 @@ public class MainActivity extends Activity {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
-                appendToUI(Integer.toString(event.getHeartRate()), VitalSigns.HeartRate);
+                String text = String.format("Heart Rate: %d BPM \nQuality: %s ",
+                                                event.getHeartRate(), event.getQuality());
+
+                appendToUI(text , VitalSigns.HeartRate);
             }
         }
     };
@@ -99,6 +117,14 @@ public class MainActivity extends Activity {
         }
     };
 
+<<<<<<< HEAD
+    private Handler mHandler = new Handler();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+=======
+>>>>>>> master
 
     private boolean getConnectedBandClient() throws InterruptedException, BandException {
         if (client == null) {
@@ -114,8 +140,26 @@ public class MainActivity extends Activity {
         } else if(ConnectionState.UNBOUND == client.getConnectionState())
             return false;
 
+<<<<<<< HEAD
+        btnConsent = (Button) findViewById(R.id.btnConsent);
+        btnConsent.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onClick(View v) {
+                new HeartRateConsentTask().execute(reference);
+
+            }
+        }, 50000);
+        Intent intent = new Intent(this, CheckConsciousness.class);
+        startActivity(intent);
+    }
+
+    private void doStuff() {
+        Toast.makeText(this, "Delayed Toast!", Toast.LENGTH_SHORT).show();
+=======
         appendToUI("Band is connecting...", VitalSigns.DeviceStatus);
         return ConnectionState.CONNECTED == client.connect().await();
+>>>>>>> master
     }
 
     // Unregister listener
@@ -135,7 +179,7 @@ public class MainActivity extends Activity {
                 if (type == VitalSigns.DeviceStatus)
                     txtStatus.setText(text);
                 else if (type == VitalSigns.HeartRate)
-                    heartRateText.setText(String.format("Heart Rate: %s BPM", text));
+                    heartRateText.setText(text);
                 else if (type == VitalSigns.SkinTemperature)
                     temperatureText.setText(String.format("Skin Temperature: %s Celcius", text));
             }
@@ -144,7 +188,10 @@ public class MainActivity extends Activity {
 
     private void setConsentPermission()
     {
-        client.getSensorManager().requestHeartRateConsent(MainActivity.this, heartRateConsentListener);
+        if(client.getSensorManager().getCurrentHeartRateConsent() !=
+                UserConsent.GRANTED) {
+            client.getSensorManager().requestHeartRateConsent(MainActivity.this, heartRateConsentListener);
+        }
     }
 
     // execute thread di asynctask
@@ -156,10 +203,8 @@ public class MainActivity extends Activity {
                     appendToUI("Band is connected.", VitalSigns.DeviceStatus);
                     isConnect = true;
                     //statusText.setTextColor(Color.parseColor("#3d7336"));
-                    if(client.getSensorManager().getCurrentHeartRateConsent() !=
-                            UserConsent.GRANTED) {
-                        setConsentPermission();
-                    }
+
+                    setConsentPermission();
 
                     client.getSensorManager().registerHeartRateEventListener(heartRateListener);
                     client.getSensorManager().registerSkinTemperatureEventListener(temperatureListener);

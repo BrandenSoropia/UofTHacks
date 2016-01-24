@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <uses-permission android:name="android.permission.BLUETOOTH" />
+        <uses-permission android:name="com.microsoft.band.service.access.BIND_BAND_SERVICE" />
+        <uses-permission android:name="android.permission.CALL_PHONE" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -21,6 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CheckConsciousness" />
+        <activity android:name=".EmergencyContact" />
+        <activity android:name=".ApplyBand" />
+        <activity android:name=".PerformCPR" />
+        <activity android:name=".ReceivedConsent" />
+        <activity android:name=".SecondaryAssesment" />
+        <activity android:name=".RecoveryPosition"></activity>
     </application>
 
 </manifest>
