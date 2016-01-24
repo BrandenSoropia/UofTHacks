@@ -16,7 +16,8 @@
         android:layout_height="250dp"
         android:id="@+id/CPR_Instructions"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/button4"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"

@@ -117,14 +117,9 @@ public class MainActivity extends Activity {
         }
     };
 
-<<<<<<< HEAD
+
     private Handler mHandler = new Handler();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-=======
->>>>>>> master
+    
 
     private boolean getConnectedBandClient() throws InterruptedException, BandException {
         if (client == null) {
@@ -139,27 +134,9 @@ public class MainActivity extends Activity {
             return true;
         } else if(ConnectionState.UNBOUND == client.getConnectionState())
             return false;
-
-<<<<<<< HEAD
-        btnConsent = (Button) findViewById(R.id.btnConsent);
-        btnConsent.setOnClickListener(new OnClickListener() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onClick(View v) {
-                new HeartRateConsentTask().execute(reference);
-
-            }
-        }, 50000);
-        Intent intent = new Intent(this, CheckConsciousness.class);
-        startActivity(intent);
-    }
-
-    private void doStuff() {
-        Toast.makeText(this, "Delayed Toast!", Toast.LENGTH_SHORT).show();
-=======
         appendToUI("Band is connecting...", VitalSigns.DeviceStatus);
         return ConnectionState.CONNECTED == client.connect().await();
->>>>>>> master
+
     }
 
     // Unregister listener
