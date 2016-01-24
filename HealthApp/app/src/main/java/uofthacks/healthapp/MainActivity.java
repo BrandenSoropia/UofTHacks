@@ -57,8 +57,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtStatus = (TextView) findViewById(R.id.txtStatus);
-        heartRateText = (TextView)findViewById(R.id.txtStatus);
-        temperatureText = (TextView)findViewById(R.id.textView3);
+        heartRateText = (TextView)findViewById(R.id.heartRateTextView);
+        temperatureText = (TextView)findViewById(R.id.temperatureTextView);
         connectButon = (Button)findViewById(R.id.btnStart);
         connectButon.setOnClickListener(new View.OnClickListener() {
 
@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
     }
 
     // Heart rate consent Listener
@@ -86,7 +85,10 @@ public class MainActivity extends Activity {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             if (event != null) {
-                appendToUI(Integer.toString(event.getHeartRate()), VitalSigns.HeartRate);
+                String text = String.format("Heart Rate: %d BPM \nQuality: %s ",
+                                                event.getHeartRate(), event.getQuality());
+
+                appendToUI(text , VitalSigns.HeartRate);
             }
         }
     };
@@ -135,7 +137,7 @@ public class MainActivity extends Activity {
                 if (type == VitalSigns.DeviceStatus)
                     txtStatus.setText(text);
                 else if (type == VitalSigns.HeartRate)
-                    heartRateText.setText(String.format("Heart Rate: %s BPM", text));
+                    heartRateText.setText(text);
                 else if (type == VitalSigns.SkinTemperature)
                     temperatureText.setText(String.format("Skin Temperature: %s Celcius", text));
             }
@@ -144,7 +146,10 @@ public class MainActivity extends Activity {
 
     private void setConsentPermission()
     {
-        client.getSensorManager().requestHeartRateConsent(MainActivity.this, heartRateConsentListener);
+        if(client.getSensorManager().getCurrentHeartRateConsent() !=
+                UserConsent.GRANTED) {
+            client.getSensorManager().requestHeartRateConsent(MainActivity.this, heartRateConsentListener);
+        }
     }
 
     // execute thread di asynctask
@@ -156,10 +161,8 @@ public class MainActivity extends Activity {
                     appendToUI("Band is connected.", VitalSigns.DeviceStatus);
                     isConnect = true;
                     //statusText.setTextColor(Color.parseColor("#3d7336"));
-                    if(client.getSensorManager().getCurrentHeartRateConsent() !=
-                            UserConsent.GRANTED) {
-                        setConsentPermission();
-                    }
+
+                    setConsentPermission();
 
                     client.getSensorManager().registerHeartRateEventListener(heartRateListener);
                     client.getSensorManager().registerSkinTemperatureEventListener(temperatureListener);
