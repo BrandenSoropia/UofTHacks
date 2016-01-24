@@ -1,38 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/txtStep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/steps" />
+        android:text="@string/steps"
+        android:layout_weight="0.18"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:layout_marginLeft="0dp"
+        android:layout_below="@+id/txtStep"
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/btnConsent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/consent" />
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="0dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnStart"
+        android:textAlignment="center"
+        android:textSize="16dp" />
 
     <TextView
-        android:id="@+id/bodyTemperatureTextView"
+        android:id="@+id/heartRateTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="0dp"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/txtStatus"
+        android:layout_alignParentStart="true"
+        android:textAlignment="center"
+        android:textSize="16dp"/>
 
-</LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temperatureTextView"
+        android:layout_below="@+id/heartRateTextView"
+        android:layout_alignParentStart="true"
+        android:fontFamily="calibri"
+        android:textColor="@android:color/black"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center"
+        android:textSize="16dp"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="623dp"></TableLayout>
+
+</RelativeLayout>
 

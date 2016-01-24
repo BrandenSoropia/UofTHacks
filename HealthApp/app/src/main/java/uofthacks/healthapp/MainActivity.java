@@ -15,87 +15,132 @@ import android.content.Intent;
 
 import java.lang.ref.WeakReference;
 
+
+//MIT License:
+//
+//Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//documentation files (the  "Software"), to deal in the Software without restriction, including without limitation
+//the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+//The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+//the Software.
+//
+//THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+//TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+//THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//IN THE SOFTWARE.
+
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
 import com.microsoft.band.BandException;
-import com.microsoft.band.BandInfo;
 import com.microsoft.band.BandIOException;
+import com.microsoft.band.BandInfo;
 import com.microsoft.band.ConnectionState;
 import com.microsoft.band.UserConsent;
+import com.microsoft.band.sensors.BandDistanceEvent;
+import com.microsoft.band.sensors.BandDistanceEventListener;
 import com.microsoft.band.sensors.BandHeartRateEvent;
 import com.microsoft.band.sensors.BandHeartRateEventListener;
+import com.microsoft.band.sensors.BandPedometerEvent;
+import com.microsoft.band.sensors.BandPedometerEventListener;
 import com.microsoft.band.sensors.BandSkinTemperatureEvent;
 import com.microsoft.band.sensors.BandSkinTemperatureEventListener;
 import com.microsoft.band.sensors.HeartRateConsentListener;
 
+import android.R.bool;
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Activity;
-import android.os.AsyncTask;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-
-    private BandClient client = null;
-    private Button btnStart, btnConsent;
     private TextView txtStatus;
-    private TextView bodyTemperature;
+    private TextView heartRateText;
+    private TextView temperatureText;
+    private Button connectButon;
+    private Boolean isConnect = false;
+    private enum VitalSigns{HeartRate,SkinTemperature, DeviceStatus};
+    private BandClient client = null;
 
-    enum Measurement_Type{BODY_TEMPERATURE,HEART_RATE};
 
-    private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
-        @Override
-        public void onBandHeartRateChanged(final BandHeartRateEvent event) {
-            if (event != null) {
-                if (event.getQuality().toString().equals("LOCKED"))
-                {
-                    appendToUI(String.format("Heart Rate = %d beats per minute\n"
-                            + "Quality = %s\n", event.getHeartRate(), event.getQuality()),0);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txtStatus = (TextView) findViewById(R.id.txtStatus);
+        heartRateText = (TextView)findViewById(R.id.heartRateTextView);
+        temperatureText = (TextView)findViewById(R.id.temperatureTextView);
+        connectButon = (Button)findViewById(R.id.btnStart);
+        connectButon.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(isConnect == false){
+                    new ListenerTask().execute();
+                    connectButon.setText("Exit");
+                } else{
+                    finish();
                 }
-                else
-                {
-                    appendToUI(String.format("Quality = %s\n", event.getQuality()),0);
-                }
-
             }
+        });
+    }
+
+    // Heart rate consent Listener
+    private HeartRateConsentListener heartRateConsentListener = new HeartRateConsentListener() {
+        @Override
+        public void userAccepted(boolean b) {
         }
     };
 
+    private BandHeartRateEventListener heartRateListener = new BandHeartRateEventListener() {
+        @Override
+        public void onBandHeartRateChanged(final BandHeartRateEvent event) {
+            if (event != null) {
+                String text = String.format("Heart Rate: %d BPM \nQuality: %s ",
+                                                event.getHeartRate(), event.getQuality());
+
+                appendToUI(text , VitalSigns.HeartRate);
+            }
+        }
+    };
 
     private BandSkinTemperatureEventListener temperatureListener = new BandSkinTemperatureEventListener() {
 
         @Override
         public void onBandSkinTemperatureChanged(BandSkinTemperatureEvent event) {
-            // TODO Auto-generated method stub
-            // Do something
-            if (event != null) {
-                appendToUI(String.format("Body Temperature = %d °C\n"
-                        + "Time = %s\n", event.getTemperature(), event.getTimestamp()),1);
-            }
+            appendToUI(String.valueOf(event.getTemperature()), VitalSigns.SkinTemperature);
         }
     };
 
+<<<<<<< HEAD
     private Handler mHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+=======
+>>>>>>> master
 
-        txtStatus = (TextView) findViewById(R.id.txtStatus);
-        bodyTemperature = (TextView) findViewById(R.id.bodyTemperatureTextView);
-        btnStart = (Button) findViewById(R.id.btnStart);
-        btnStart.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txtStatus.setText("");
-                new HeartRateSubscriptionTask().execute();
+    private boolean getConnectedBandClient() throws InterruptedException, BandException {
+        if (client == null) {
+            BandInfo[] devices = BandClientManager.getInstance().getPairedBands();
+            if (devices.length == 0) {
+                appendToUI("Band isn't paired with your phone.", VitalSigns.DeviceStatus);
+                //statusText.setTextColor(Color.parseColor("#d04545"));
+                return false;
             }
-        });
+            client = BandClientManager.getInstance().create(getBaseContext(), devices[0]);
+        } else if (ConnectionState.CONNECTED == client.getConnectionState()) {
+            return true;
+        } else if(ConnectionState.UNBOUND == client.getConnectionState())
+            return false;
 
-        final WeakReference<Activity> reference = new WeakReference<Activity>(this);
-
+<<<<<<< HEAD
         btnConsent = (Button) findViewById(R.id.btnConsent);
         btnConsent.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("unchecked")
@@ -111,146 +156,91 @@ public class MainActivity extends Activity {
 
     private void doStuff() {
         Toast.makeText(this, "Delayed Toast!", Toast.LENGTH_SHORT).show();
+=======
+        appendToUI("Band is connecting...", VitalSigns.DeviceStatus);
+        return ConnectionState.CONNECTED == client.connect().await();
+>>>>>>> master
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        txtStatus.setText("");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (client != null) {
-            try {
-                client.getSensorManager().unregisterHeartRateEventListener(mHeartRateEventListener);
-            } catch (BandIOException e) {
-                appendToUI(e.getMessage(), 0);
-            }
+    // Unregister listener
+    private void unRegisterListeners(){
+        try {
+            client.getSensorManager().unregisterAllListeners();
+        } catch (BandIOException e) {
+            appendToUI(e.getMessage(), VitalSigns.DeviceStatus);
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        if (client != null) {
-            try {
-                client.disconnect().await();
-            } catch (InterruptedException e) {
-                // Do nothing as this is happening during destroy
-            } catch (BandException e) {
-                // Do nothing as this is happening during destroy
-            }
-        }
-        super.onDestroy();
-    }
-
-    private class HeartRateSubscriptionTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                if (getConnectedBandClient()) {
-                    if (client.getSensorManager().getCurrentHeartRateConsent() == UserConsent.GRANTED) {
-                        client.getSensorManager().registerHeartRateEventListener(mHeartRateEventListener);
-                    } else {
-                        appendToUI("You have not given this application consent to access heart rate data yet."
-                                + " Please press the Heart Rate Consent button.\n", 0);
-                    }
-                } else {
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n", 0);
-                }
-            } catch (BandException e) {
-                String exceptionMessage = "";
-                switch (e.getErrorType()) {
-                    case UNSUPPORTED_SDK_VERSION_ERROR:
-                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
-                        break;
-                    case SERVICE_ERROR:
-                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
-                        break;
-                    default:
-                        exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
-                        break;
-                }
-                appendToUI(exceptionMessage, 0);
-
-            } catch (Exception e) {
-                appendToUI(e.getMessage(),0);
-            }
-            return null;
-        }
-    }
-
-    private class HeartRateConsentTask extends AsyncTask<WeakReference<Activity>, Void, Void> {
-        @Override
-        protected Void doInBackground(WeakReference<Activity>... params) {
-            try {
-                if (getConnectedBandClient()) {
-
-                    if (params[0].get() != null) {
-                        client.getSensorManager().requestHeartRateConsent(params[0].get(), new HeartRateConsentListener() {
-                            @Override
-                            public void userAccepted(boolean consentGiven) {
-                            }
-                        });
-                    }
-                    client.getSensorManager().registerSkinTemperatureEventListener(temperatureListener);
-                } else {
-                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n",0);
-                }
-            } catch (BandException e) {
-                String exceptionMessage = "";
-                switch (e.getErrorType()) {
-                    case UNSUPPORTED_SDK_VERSION_ERROR:
-                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.\n";
-                        break;
-                    case SERVICE_ERROR:
-                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.\n";
-                        break;
-                    default:
-                        exceptionMessage = "Unknown error occured: " + e.getMessage() + "\n";
-                        break;
-                }
-                appendToUI(exceptionMessage, 0);
-
-            } catch (Exception e) {
-                appendToUI(e.getMessage(), 0);
-            }
-            return null;
-        }
-    }
-
-    private void appendToUI(final String string, final int type) {
+    // Display values in the corresponding TextView
+    private void appendToUI(final String text, final VitalSigns type) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (type == 1)
-                {
-                    bodyTemperature.setText(string);
-
-                }
-                else
-                {
-                    txtStatus.setText(string);
-                }
-
+                if (type == VitalSigns.DeviceStatus)
+                    txtStatus.setText(text);
+                else if (type == VitalSigns.HeartRate)
+                    heartRateText.setText(text);
+                else if (type == VitalSigns.SkinTemperature)
+                    temperatureText.setText(String.format("Skin Temperature: %s Celcius", text));
             }
         });
     }
 
-    private boolean getConnectedBandClient() throws InterruptedException, BandException {
-        if (client == null) {
-            BandInfo[] devices = BandClientManager.getInstance().getPairedBands();
-            if (devices.length == 0) {
-                appendToUI("Band isn't paired with your phone.\n",0);
-                return false;
-            }
-            client = BandClientManager.getInstance().create(getBaseContext(), devices[0]);
-        } else if (ConnectionState.CONNECTED == client.getConnectionState()) {
-            return true;
+    private void setConsentPermission()
+    {
+        if(client.getSensorManager().getCurrentHeartRateConsent() !=
+                UserConsent.GRANTED) {
+            client.getSensorManager().requestHeartRateConsent(MainActivity.this, heartRateConsentListener);
         }
+    }
 
-        appendToUI("Band is connecting...\n",0);
-        return ConnectionState.CONNECTED == client.connect().await();
+    // execute thread di asynctask
+    private class ListenerTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (getConnectedBandClient()) {
+                    appendToUI("Band is connected.", VitalSigns.DeviceStatus);
+                    isConnect = true;
+                    //statusText.setTextColor(Color.parseColor("#3d7336"));
+
+                    setConsentPermission();
+
+                    client.getSensorManager().registerHeartRateEventListener(heartRateListener);
+                    client.getSensorManager().registerSkinTemperatureEventListener(temperatureListener);
+                } else {
+                    appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.", VitalSigns.DeviceStatus);
+                    //statusText.setTextColor(Color.parseColor("#d04545"));
+
+                }
+            } catch (BandException e) {
+                String exceptionMessage="";
+                switch (e.getErrorType()) {
+                    case UNSUPPORTED_SDK_VERSION_ERROR:
+                        exceptionMessage = "Microsoft Health BandService doesn't support your SDK Version. Please update to latest SDK.";
+                        break;
+                    case SERVICE_ERROR:
+                        exceptionMessage = "Microsoft Health BandService is not available. Please make sure Microsoft Health is installed and that you have the correct permissions.";
+                        break;
+                    default:
+                        exceptionMessage = e.getMessage();
+                        break;
+                }
+                appendToUI(e.getMessage() + "\nAccept permision of Microsoft Health Service, then restart counting", VitalSigns.DeviceStatus);
+                //  statusText.setTextColor(Color.parseColor("#d04545"));
+
+            } catch (Exception e) {
+                appendToUI(e.getMessage(), VitalSigns.DeviceStatus);
+                // statusText.setTextColor(Color.parseColor("#d04545"));
+            }
+
+            return null;
+        }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        unRegisterListeners();
     }
 }
