@@ -23,8 +23,19 @@ public class PerformCPR extends AppCompatActivity {
         List<String> instructions = new ArrayList<String>();
         // Add all strings here
         int i =0;
-        while (i != 5) {
-            instructions.add("I'm awesome! x" + i + '\n');
+        while (i != 4) {
+            if (i==0) {
+                instructions.add("Landmark at centre of chest (hand under armpit, pull palm to centre of chest)\n");
+            }
+            if (i==1) {
+                instructions.add("Cross hands and lock elbows\n");
+            }
+            if (i==2) {
+                instructions.add("100 compressions/minute \n");
+            }
+            if (i==3) {
+                instructions.add("Push hard and fast (half the depth of victim's chest)\n");
+            }
             i++;
         }
 
